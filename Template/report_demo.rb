@@ -1,13 +1,35 @@
 #!/usr/bin/env ruby
 
-require_relative '../example'
+#require 'test/unit'
+require 'minitest/autorun'
+require 'pp'
+require 'stringio'
+
 require_relative 'report'
 
-example %q{
-report = HTMLReport.new
-report.output_report
 
-report = PlainTextReport.new
-report.output_report
+class HookReportTest <  Minitest::Test
 
-}
+  def test_hacked_report
+    r = PlainTextReport.new
+    output = capture_output { r.output_report }
+    assert /Things/ =~ output
+
+    r = HTMLReport.new
+    output = capture_output { r.output_report }
+    assert /<html>/ =~ output
+    assert /<title>Monthly/ =~ output
+  end
+
+  def capture_output(&block)
+    output = StringIO.new
+    begin
+       $stdout = output
+       block.call
+    ensure
+       $stdout = STDOUT
+    end
+    output.string
+  end
+
+end
