@@ -7,36 +7,22 @@ require 'stringio'
 require_relative 'strategy'
 
 class FormatterTest < Minitest::Test
-  def test_abs_formatter
-    f = Formatter.new
-    # assert_raise(RuntimeError){ f.output_report('title', ['text']) }
-  end
-
-  def test_html_formatter
-    f = HTMLFormatter.new
-
-    output = capture_output { f.output_report('AAAAA', ['BBBBB']) }
-    assert /<html>/ =~ output
-    assert /<title>AAAAA/ =~ output
-    assert /<p>BBBBB/ =~ output
-  end
-
-  def test_plain_formatter
-    f = PlainTextFormatter.new
-
-    output = capture_output { f.output_report('AAAAA', ['BBBBB']) }
-    assert /AAAAA/ =~ output
-    assert /BBBBB/ =~ output
-  end
-
-  def test_report
+  def test_html_report
     r = Report.new(HTMLFormatter.new)
+
     output = capture_output { r.output_report }
     assert /<html>/ =~ output
     assert /<title>Monthly/ =~ output
-    assert /<p>really/ =~ output
+    assert /<p>Things/ =~ output
   end
 
+  def test_plain_report
+    r = Report.new(PlainTextFormatter.new)
+
+    output = capture_output { r.output_report }
+    assert /Monthly/ =~ output
+    assert /Things/ =~ output
+  end
 
   def capture_output(&block)
     output = StringIO.new
@@ -48,4 +34,5 @@ class FormatterTest < Minitest::Test
     end
     output.string
   end
+
 end
