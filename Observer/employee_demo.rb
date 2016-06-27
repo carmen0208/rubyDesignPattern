@@ -4,7 +4,8 @@ require_relative "../example"
 require_relative "employee"
 
 example %q{
-carmen = Employee.new("Carmen Ninja Liu", "Ninja of the World", 1000000.0)
+payroll = Payroll.new
+carmen = Employee.new("Carmen Ninja Liu", "Ninja of the World", 1000000.0, payroll)
 
 #Give Carmen a raise.
 
