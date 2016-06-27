@@ -1,4 +1,4 @@
-class Subject
+module Subject
   def initialize
     @observers=[]
   end
@@ -19,7 +19,8 @@ class Subject
 
 end
 
-class Employee <Subject
+class Employee
+  include Subject
   attr_reader :name, :title, :salary
 
   def initialize(name, title, salary)
