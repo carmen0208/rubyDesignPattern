@@ -25,6 +25,13 @@ class CompositeTask < Task
     time
   end
 
+  # Right way to do it ...
+
+  def total_number_basic_tasks
+    total = 0
+    @sub_tasks.each {|task| total += task.total_number_basic_tasks}
+    total
+  end
   # Lots of code omitted ...
   #Wrong way to add it because the tree is not only has one hierarchy
 
