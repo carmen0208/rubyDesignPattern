@@ -24,4 +24,11 @@ class CompositeTask < Task
     @sub_tasks.each {|task| time += task.get_time_required }
     time
   end
+
+  # Lots of code omitted ...
+  #Wrong way to add it because the tree is not only has one hierarchy
+
+# def total_number_basic_tasks
+#   return @sub_tasks.length
+# end
 end
