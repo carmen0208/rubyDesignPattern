@@ -9,7 +9,7 @@ require_relative 'make_batter_task'
 class MakeBatterTaskTest < Minitest::Test
   def test_class
     task = CompositeTask.new('operators')
-    assert(!task.kind_of?(Array))
+    assert task.kind_of?(Array)
   end
 
   def test_array_ops
@@ -33,7 +33,7 @@ class MakeBatterTaskTest < Minitest::Test
     task << MixTask.new
     assert_equal 6, task.get_time_required
 
-    task.remove_sub_task(m1)
+    task.delete(m1)
     assert_equal 3, task.get_time_required
   end
 end
