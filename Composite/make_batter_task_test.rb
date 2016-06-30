@@ -7,6 +7,7 @@ require_relative 'composite_task'
 require_relative 'make_batter_task'
 
 class MakeBatterTaskTest < Minitest::Test
+
   def test_class
     task = CompositeTask.new('operators')
     assert task.kind_of?(Array)
