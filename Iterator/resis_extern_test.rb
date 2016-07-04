@@ -3,14 +3,16 @@
 require 'minitest/autorun'
 require 'pp'
 
-require_relative 'array_iterator'
+#require_relative 'array_iterator'
+
+require_relative 'copied_array_iterator'
 
 class ChangeResistantArrayIteratorTest < Minitest::Test
 
   def test_iterator
     array = ['aaa', 'bbb', 'ccc']
 
-    i = ArrayIterator.new(array)
+    i = CopiedArrayIterator.new(array)
 
     assert_equal( 'aaa', i.item )
     assert_equal( 'aaa', i.next_item )
@@ -31,7 +33,7 @@ class ChangeResistantArrayIteratorTest < Minitest::Test
 
     array = ['aaa', 'bbb', 'ccc']
 
-    i = ArrayIterator.new(array)
+    i = CopiedArrayIterator.new(array)
 
     array.delete('aaa')
     array.delete('bbb')
