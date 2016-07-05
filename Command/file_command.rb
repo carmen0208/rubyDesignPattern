@@ -9,6 +9,9 @@ class Command
 
   def execute
   end
+
+  def unexecute
+end
 end
 
 class CreateFile < Command
@@ -23,7 +26,12 @@ class CreateFile < Command
     f.write(@contents)
     f.close
   end
+
+  def unexecute
+    File.delete(@path)
+  end
 end
+
 class DeleteFile < Command
   def initialize(path)
     super("Delete file: #{path}")
@@ -31,8 +39,19 @@ class DeleteFile < Command
   end
 
   def execute
-    File.delete(@path)
+    if File.exists?(@path)
+      @contents = File.read(@path)
+    end
+    f = File.delete(@path)
   end
+
+  def unexecute
+  if @contents
+    f = File.open(@path,"w")
+    f.write(@contents)
+    f.close
+  end
+end
 end
 
 class CopyFile < Command
@@ -43,8 +62,20 @@ class CopyFile < Command
   end
 
   def execute
+    if File.exists?(@target)
+      @contents = File.open(@target).read
+    end
     FileUtils.copy(@source, @target)
   end
+
+  def unexecute
+  File.delete(@target)
+  if @contents
+    f = File.open(@target,"w")
+    f.write(@contents)
+    f.close
+  end
+end
 end
 
 #
@@ -59,6 +90,10 @@ class CompositeCommand < Command
   end
   def execute
     @commands.each {|cmd| cmd.execute}
+  end
+
+  def unexecute
+    @commands.reverse.each {|cmd| cmd.unexecute }
   end
 
   def description
