@@ -10,17 +10,31 @@ require_relative 'virtual_proxy'
 
 class VirtualProxyTest < Minitest::Test
   def test_proxy
-    proxy = VirtualAccountProxy.new( 100 )
-    assert_nil proxy.instance_variable_get(:@subject)
+    # proxy = VirtualAccountProxy.new( 100 )
+    # assert_nil proxy.instance_variable_get(:@subject)
+    #
+    # assert_equal 100, proxy.balance
+    # assert proxy.instance_variable_get(:@subject) != nil
+    #
+    # assert_equal 200, proxy.deposit(100)
+    # assert_equal 200, proxy.balance
+    #
+    # assert_equal 180, proxy.withdraw(20)
+    # assert_equal 180, proxy.balance
+    # assert proxy.instance_variable_get(:@subject) != nil
+    ba = nil
+    proxy = VirtualAccountProxy.new {ba = BankAccount.new(100)}
+
+    assert_nil ba
 
     assert_equal 100, proxy.balance
-    assert proxy.instance_variable_get(:@subject) != nil
+    assert ba  != nil
 
     assert_equal 200, proxy.deposit(100)
     assert_equal 200, proxy.balance
 
     assert_equal 180, proxy.withdraw(20)
     assert_equal 180, proxy.balance
-    assert proxy.instance_variable_get(:@subject) != nil
+    assert ba  != nil
   end
 end

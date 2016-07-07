@@ -2,26 +2,26 @@
 
 
 class VirtualAccountProxy
-  def initialize(starting_balance=0)
-    @starting_balance=starting_balance
+  def initialize(&creation_block)
+    @creation_block= creation_block
   end
 
   def deposit(amount)
     s = subject
-    return s.deposit(amount)
+    s.deposit(amount)
   end
 
   def withdraw(amount)
     s = subject
-    return s.withdraw(amount)
+    s.withdraw(amount)
   end
 
   def balance
     s = subject
-    return s.balance
+     s.balance
   end
   def subject
     # puts @start_balance
-    @subject || (@subject = BankAccount.new(@starting_balance))
+    @subject || (@subject = @creation_block.call)
   end
 end
