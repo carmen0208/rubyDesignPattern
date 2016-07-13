@@ -2,13 +2,13 @@ class Pond
   def initialize (number_animals, number_plants)
     @animals = []
     number_animals.times do |i|
-      animal = new_animal("Animal#{i}")
+      animal = new_organism(:animal, "Animal#{i}")
       @animals << animal
     end
 
     @plants = []
     number_plants.times do |i|
-      plant = new_plant("Plant#{i}")
+      plant = new_organism(:plant, "Plant#{i}")
       @plants << plant
     end
   end
@@ -23,21 +23,27 @@ class Pond
 end
 
 class DuckWaterLilyPond < Pond
-  def new_animal(name)
-    Duck.new(name)
+  def new_organism(type, name)
+    if type == :animal
+      Duck.new(name)
+    elsif type == :plant
+      WaterLily.new(name)
+    else
+      raise "Unknown organism type: #{type}"
+    end
   end
 
-  def new_plant(name)
-    WaterLily.new(name)
-  end
 end
 
 class FrogAlgaePond < Pond
-  def new_animal(name)
-    Frog.new(name)
-  end
+  def new_organism(type, name)
 
-  def new_plant(name)
-  Algae.new(name)
-end
+    if type == :animal
+      Frog.new(name)
+    elsif type == :plant
+      Algae.new(name)
+    else
+      raise "Unknown organism type: #{type}"
+    end
+  end
 end
