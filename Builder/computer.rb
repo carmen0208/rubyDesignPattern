@@ -1,11 +1,11 @@
 class Computer
   attr_accessor :display
   attr_accessor :motherboard
-  attr_accessor :drivers
+  attr_accessor :drives
 
   def initialize(display=:crt, motherboard=Motherboard.new, drives=[])
     @motherboard = motherboard
-    @drivers = drivers
+    @drives = drives
     @display = display
   end
 end
