@@ -1,6 +1,20 @@
 require 'find'
 
-class FileName
+
+class Expression
+
+  def |(other)
+    Or.new(self, other)
+  end
+
+  def &(other)
+    And.new(self, other)
+  end
+
+end
+
+
+class FileName < Expression
   def initialize(pattern)
     @pattern = pattern
   end
@@ -16,7 +30,7 @@ class FileName
   end
 end
 
-class All
+class All < Expression
  def evaluate(dir)
    results= []
    Find.find(dir) do |p|
@@ -27,7 +41,7 @@ class All
  end
 end
 
-class Not
+class Not <Expression
  def initialize(expression)
    @expression = expression
  end
@@ -37,7 +51,7 @@ class Not
  end
 end
 
-class Bigger
+class Bigger < Expression
  def initialize(size)
    @size = size
  end
@@ -52,7 +66,7 @@ class Bigger
  end
 end
 
-class Writable
+class Writable < Expression
  def evaluate(dir)
    results = []
    Find.find(dir) do |p|
@@ -63,7 +77,7 @@ class Writable
  end
 end
 
-class Or
+class Or < Expression
  def initialize(expression1, expression2)
    @expression1 = expression1
    @expression2 = expression2
@@ -76,7 +90,7 @@ class Or
  end
 end
 
-class And 
+class And  < Expression
  def initialize(expression1, expression2)
    @expression1 = expression1
    @expression2 = expression2
